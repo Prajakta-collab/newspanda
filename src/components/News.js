@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 
 export default class News extends Component {
-     articles = [
+  articles = [
     {
       source: { id: "espn-cric-info", name: "ESPN Cric Info" },
       author: null,
@@ -30,36 +30,52 @@ export default class News extends Component {
       publishedAt: "2020-03-30T15:26:05Z",
       content:
         "Last week, we at ESPNcricinfo did something we have been thinking of doing for eight years now: pretend-live ball-by-ball commentary for a classic cricket match. We knew the result, yes, but we tried… [+6823 chars]",
-     }
+    },
   ];
 
   constructor() {
-    //after render method run hoto 
+    //after render method run hoto
     super();
-   
-    this.state={
-      article: [],
-      loading: false
-    };
 
- 
+    this.state = {
+      article: [],
+      loading: false,
+      page: 1,
+    };
   }
 
-async componentDidMount(){
-
-    let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=87282f2d2bc14f2da2ac6b01c6a7c3f6";
-    let data=await fetch(url);
-    let parsedData=await data.json();
+  async componentDidMount() {
+    let url =
+      "https://newsapi.org/v2/top-headlines?country=in&apiKey=87282f2d2bc14f2da2ac6b01c6a7c3f6&page2&pagesize=20";
+    let data = await fetch(url);
+    let parsedData = await data.json();
     //console.log(parsedData.articles);
- 
-    this.setState({article:parsedData.articles});
-    //console.log(this.articles);
-    
-    
 
-    
-    
-}
+    this.setState({
+      article: parsedData.articles,
+      totalResults: parsedData.totalResults,
+    });
+    //console.log(this.articles);
+  }
+  handlePrev = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=87282f2d2bc14f2da2ac6b01c6a7c3f6&page=${
+      this.state.page - 1
+    }&pagesize=20`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+
+    this.setState({ page: this.state.page - 1, article: parsedData.articles });
+  };
+  handleNext = async () => {
+    if(this.state.page+1>Math.ceil(this.state.totalResults/20)){}else{
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=87282f2d2bc14f2da2ac6b01c6a7c3f6&page=${
+      this.state.page + 1
+    }&pagesize=20`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+
+    this.setState({ page: this.state.page + 1, article: parsedData.articles });}
+  };
   render() {
     return (
       <div className="container my-3">
@@ -67,15 +83,36 @@ async componentDidMount(){
 
         <div className="row">
           {this.state.article.map((element) => {
-             
-             return <div className="col-md-4" key={element.url}>
-              <NewsItem 
-                title={element.title?element.title.slice(0,45):""}
-                description={element.description?element.description.slice(0,88):""}
-                imgurl={element.urlToImage}
-                newsUrl={element.url}/>
-            </div>
+            return (
+              <div className="col-md-4" key={element.url}>
+                <NewsItem
+                  title={element.title ? element.title.slice(0, 45) : ""}
+                  description={
+                    element.description ? element.description.slice(0, 88) : ""
+                  }
+                  imgurl={element.urlToImage}
+                  newsUrl={element.url}
+                />
+              </div>
+            );
           })}
+          <div className="container d-flex justify-content-between">
+            <button
+              disabled={this.state.page <= 1}
+              type="button"
+              class="btn btn-primary mx-2"
+              onClick={this.handlePrev}
+            >
+              &larr; Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onClick={this.handleNext}
+            >
+              Next &rarr;
+            </button>
+          </div>
         </div>
       </div>
     );

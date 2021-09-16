@@ -15,12 +15,16 @@ export default class NewsItem extends Component {
               href={newsUrl}
               target="_blank"
               className="btn btn-primary btn-sm"
+              rel="noreferrer"
             >
               Read more..
             </a>
           </div>
         </div>
+       
       </div>
+      
     );
   }
-}
+} 
+
