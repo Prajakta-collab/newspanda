@@ -38,7 +38,7 @@ export default class News extends Component {
     super();
    
     this.state={
-      article: this.articles,
+      article: [],
       loading: false
     };
 
@@ -47,13 +47,13 @@ export default class News extends Component {
 
 async componentDidMount(){
 
-    let url="https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=87282f2d2bc14f2da2ac6b01c6a7c3f6";
+    let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=87282f2d2bc14f2da2ac6b01c6a7c3f6";
     let data=await fetch(url);
     let parsedData=await data.json();
-    console.log(parsedData.articles);
+    //console.log(parsedData.articles);
  
     this.setState({article:parsedData.articles});
-    console.log(this.articles);
+    //console.log(this.articles);
     
     
 
@@ -66,7 +66,7 @@ async componentDidMount(){
         <h2>NewsPanda- Top Headlines </h2>
 
         <div className="row">
-          {this.articles.map((element) => {
+          {this.state.article.map((element) => {
              
              return <div className="col-md-4" key={element.url}>
               <NewsItem 
