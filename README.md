@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-https://user-images.githubusercontent.com/52710902/136197471-4d64eb7c-0b05-4108-abc5-ce6eb2762454.mp4
+![bandicam-2021-10-06-16-55-04-592](https://user-images.githubusercontent.com/52710902/136197934-5dd2fcb9-7e3a-4ebe-9b37-9da139d338ca.gif)
 
 
 ## Available Scripts
